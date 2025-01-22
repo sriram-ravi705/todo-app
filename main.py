@@ -1,13 +1,26 @@
-todo_list = []
+# todo_list = []
 
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
 
     match user_action:
         case 'add':
-            todo = input('Enter todo: ').strip()
+            todo = input('Enter todo: ') + "\n"
+
+            file = open('files/todo', 'r')
+            todo_list = file.readlines()
+            file.close()
+
             todo_list.append(todo)
+
+            file = open('files/todo', 'w')
+            file.writelines(todo_list)
+            file.close()
         case 'show' | 'display':
+            file = open('files/todo', 'r')
+            todo_list = file.readlines()
+            file.close()
+
             for index, todo_items in enumerate(todo_list):
                 print(f'{index + 1}-{todo_items.title()}')
             print(f'Total todo: {len(todo_list)}')
