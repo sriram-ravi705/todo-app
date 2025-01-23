@@ -22,6 +22,8 @@ while True:
             file.close()
 
             for index, todo_items in enumerate(todo_list):
+                todo_items = todo_items.strip("\n")
+                print(type(todo_items))
                 print(f'{index + 1}-{todo_items.title()}')
             print(f'Total todo: {len(todo_list)}')
         case 'edit':
