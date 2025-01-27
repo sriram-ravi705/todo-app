@@ -1,34 +1,39 @@
-todo_list = []
+def get_todos():
+    with open('files/todo', 'r') as files:
+        todo_local = files.readlines()
+    return todo_local
+
+
+def set_todos():
+    pass
+
 
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
     user_action = user_action.strip()
 
     if user_action.startswith('add'):
-        todo = input('Enter todo: ') + "\n"
-        with open('files/todo', 'r') as file:
-            todo_list = file.readlines()
-        todo_list.append(todo)
-        todo_list.sort()
+        todo = user_action[4:] + "\n"
+        todos = get_todos()
+        todos.append(todo)
+        todos.sort()
         with open('files/todo', 'w') as file:
-            file.writelines(todo_list)
+            file.writelines(todos)
     elif user_action.startswith('show'):
-        with open('files/todo', 'r') as file:
-            todo_list = file.readlines()
-        for index, todo_items in enumerate(todo_list):
+        todos = get_todos()
+        for index, todo_items in enumerate(todos):
             todo_items = todo_items.strip("\n")
             print(f'{index + 1}-{todo_items.title()}')
-        print(f'Total todo: {len(todo_list)}')
+        print(f'Total todo: {len(todos)}')
     elif user_action.startswith('edit'):
         try:
             number = int(user_action[5:])
             number = number - 1
-            with open('files/todo', 'r') as file:
-                todo_list = file.readlines()
+            todos = get_todos()
             new_todo = input('Enter new todo: ')
-            todo_list[number] = new_todo + "\n"
+            todos[number] = new_todo + "\n"
             with open('files/todo', 'w') as file:
-                file.writelines(todo_list)
+                file.writelines(todos)
             print('Todo updated')
         except ValueError:
             print("your command is not valid")
@@ -36,15 +41,17 @@ while True:
     elif user_action.startswith('complete'):
         try:
             number = int(user_action[9:])
-            with open('files/todo', 'r') as file:
-                todo_list = file.readlines()
-            removed_todo = todo_list[number - 1].strip("\n")
-            todo_list.pop(number - 1)
+            todos = get_todos()
+            removed_todo = todos[number - 1].strip("\n")
+            todos.pop(number - 1)
             with open('files/todo', 'w') as file:
-                file.writelines(todo_list)
+                file.writelines(todos)
             print(f'Todo {removed_todo} removed ')
         except IndexError:
             print("There is not item with the number")
+            continue
+        except ValueError:
+            print("Please enter item number")
             continue
     elif user_action.startswith('exit'):
         break
