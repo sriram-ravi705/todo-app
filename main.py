@@ -1,11 +1,12 @@
-def get_todos():
-    with open('files/todo', 'r') as files:
+def get_todos(file_path):
+    with open(file_path, 'r') as files:
         todo_local = files.readlines()
     return todo_local
 
 
-def set_todos():
-    pass
+def write_todos(file_path, todos):
+    with open(file_path, 'w') as files:
+        files.writelines(todos)
 
 
 while True:
@@ -14,13 +15,12 @@ while True:
 
     if user_action.startswith('add'):
         todo = user_action[4:] + "\n"
-        todos = get_todos()
+        todos = get_todos('files/todo')
         todos.append(todo)
         todos.sort()
-        with open('files/todo', 'w') as file:
-            file.writelines(todos)
+        write_todos('files/todo', todos)
     elif user_action.startswith('show'):
-        todos = get_todos()
+        todos = get_todos('files/todo')
         for index, todo_items in enumerate(todos):
             todo_items = todo_items.strip("\n")
             print(f'{index + 1}-{todo_items.title()}')
@@ -29,11 +29,10 @@ while True:
         try:
             number = int(user_action[5:])
             number = number - 1
-            todos = get_todos()
+            todos = get_todos('files/todo')
             new_todo = input('Enter new todo: ')
             todos[number] = new_todo + "\n"
-            with open('files/todo', 'w') as file:
-                file.writelines(todos)
+            write_todos('files/todo', todos)
             print('Todo updated')
         except ValueError:
             print("your command is not valid")
@@ -41,11 +40,10 @@ while True:
     elif user_action.startswith('complete'):
         try:
             number = int(user_action[9:])
-            todos = get_todos()
+            todos = get_todos('files/todo')
             removed_todo = todos[number - 1].strip("\n")
             todos.pop(number - 1)
-            with open('files/todo', 'w') as file:
-                file.writelines(todos)
+            write_todos('files/todo', todos)
             print(f'Todo {removed_todo} removed ')
         except IndexError:
             print("There is not item with the number")
