@@ -1,15 +1,4 @@
-def get_todos(file_path='files/todo'):
-    """ Read a text file and return the todo list item """
-    with open(file_path, 'r') as files:
-        todo_local = files.readlines()
-    return todo_local
-
-
-def write_todos(todos, file_path='files/todo'):
-    """ Get todo list item and write in a text file """
-    with open(file_path, 'w') as files:
-        files.writelines(todos)
-
+from modules.functions import get_todos, write_todos
 
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
