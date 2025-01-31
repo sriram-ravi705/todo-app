@@ -1,0 +1,9 @@
+[{
+    "question": "What is my name?",
+    "alternative": ["sriram", "ram", "sri", "guru"],
+    "correct": 3
+}, {
+    "question": "What is my age?",
+    "alternative": [12, 18, 20, 24],
+    "correct": 4
+}]
